@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html> 
-	<head>
-		<title> </title>
-	</head>
+{% extends "layout.html" %}
 
+{% set active_page = "home" %}
 
-	<body>
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		  <div class="container-fluid">
-			<ul class="navbar-nav">
-			  <li class="nav-item">
-				<a class="nav-link active" href="#">Home</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Link</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Link</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="#">Disabled</a>
-			  </li>
-			</ul>
-		  </div>
-		</nav>
-		
-		
-		
-		<form action="">
-			<select name="">
-				{{word}}
-			</select>
-	
-	
-	</body>
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<p> hello there </p>
 
 
 
-
-
-</html>
+{% endblock %}

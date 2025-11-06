@@ -18,15 +18,15 @@ def render_fact1():
     if "year" in request.args:
         year = request.args.get('year')
         state = request.args.get('state')
-        year1 = year_highest_average_math(year)
-        fact1 = "In " + year + ", the state with the highest average math is " + str(year1) + "."
-        year2 = year_highest_average_verbal(year)
-        fact2 = "In " + year + ", the state with the highest average verbal is " + str(year2) + "."
+        DataMath = year_highest_average_math(year)
+        fact1 = "In " + year + ", the state with the highest average math is " + DataMath[0] + " with a " + str(DataMath[1]) + "."
+        DataVerbal = year_highest_average_verbal(year)
+        fact2 = "In " + year + ", the state with the highest average verbal is " + DataVerbal[0] + " with a "+ str(DataVerbal[1]) + "."
         DataGPA = year_highest_average_GPA(year)
         fact3 = "In " + year + ", the state with the highest average GPA among all academic subjects is " + DataGPA[0] + " and the GPA is " + str(DataGPA[1]) +  "."
-        # TotalTakers = total_test_takers_per_year(year)
-        # fact4 = "In " + year + ", the total amount of test takers was " + TotalTakers + "."
-        return render_template('page1.html', year_options = years, funFact1 = fact1, funFact2 = fact2, funFact3 = fact3)
+        """TotalTakers = total_test_takers(year)
+        fact4 = "In " + year + ", the total amount of test takers was " + str(TotalTakers) + "." """
+        return render_template('page1.html', year_options = years, funFact1 = fact1, funFact2 = fact2, funFact3 = fact3) #funFact4 = fact4)
     return render_template('page1.html', year_options = years)
 
 
@@ -91,32 +91,33 @@ def get_state_options():
 
 
 
-def year_highest_average_math(year): # FIX THE SHOWING OF "NONE" AS RESULT
+def year_highest_average_math(year):
     """Return the name of a state in the given year with the highest average math score."""
     with open('school_scores.json') as school_scores:
         states = json.load(school_scores)
-    highest=0
-    state = ""
-    for s in states:
-        if s["Year"] == year:
-            if s["Total"]["Math"] > highest:
-                highest = s["Total"]["Math"]
-                states = s["Year"]
-    return year
+        highest=0
+        state = ""
+        for s in states:
+            if str(s["Year"]) == str(year):
+                if s["Total"]["Math"] > highest:
+                    highest = s["Total"]["Math"]
+                    state = s["State"]["Name"]
+    return [state, highest]
 
-
-
-def year_highest_average_verbal(year): #FIX THE SHOWING OF "NONE" AS RESULT
+    
+    
+def year_highest_average_verbal(year):
+    """Return the name of a state in the given year with the highest average math score."""
     with open('school_scores.json') as school_scores:
         states = json.load(school_scores)
-    highest=0
-    state = ""
-    for s in states:
-        if s["Year"] == year:
-            if s["Total"]["Verbal"] > highest:
-                highest = s["Total"]["Verbal"]
-                states = s["Year"]
-    return year
+        highest=0
+        state = ""
+        for s in states:
+            if str(s["Year"]) == str(year):
+                if s["Total"]["Verbal"] > highest:
+                    highest = s["Total"]["Verbal"]
+                    state = s["State"]["Name"]
+    return [state, highest]
 
 
 
@@ -141,6 +142,17 @@ def avg_GPA(subjects):
         print(subject)
         total += data["Average GPA"]
     return total/6
+
+
+
+"""def total_test_takers(year):
+    with open('school_scores.json') as school_scores:
+        testers_total = json.load(school_scores)
+        total = 0
+        for d in testers_total:
+            if d['Year'] == year:
+                total += d['Total']['Test-Takers']
+   return total """
 
 
 
@@ -209,7 +221,7 @@ def average_verbal_females(state):
 
 
 
-def average_GPA_by_state(state):
+def average_GPA_by_state(state): # FORMAT DECIMALS
     with open('school_scores.json') as school_scores:
         GPA_average = json.load(school_scores)
         total = 0

@@ -24,9 +24,9 @@ def render_fact1():
         fact2 = "In " + year + ", the state with the highest average verbal is " + DataVerbal[0] + " with a "+ str(DataVerbal[1]) + "."
         DataGPA = year_highest_average_GPA(year)
         fact3 = "In " + year + ", the state with the highest average GPA among all academic subjects is " + DataGPA[0] + " and the GPA is " + str(DataGPA[1]) +  "."
-        """TotalTakers = total_test_takers(year)
-        fact4 = "In " + year + ", the total amount of test takers was " + str(TotalTakers) + "." """
-        return render_template('page1.html', year_options = years, funFact1 = fact1, funFact2 = fact2, funFact3 = fact3) #funFact4 = fact4)
+        DataTesters = total_test_takers(year)
+        fact4 = "In " + year + ", the total amount of test takers was " + str(DataTesters) + "."
+        return render_template('page1.html', year_options = years, funFact1 = fact1, funFact2 = fact2, funFact3 = fact3, funFact4 = fact4)
     return render_template('page1.html', year_options = years)
 
 
@@ -145,14 +145,14 @@ def avg_GPA(subjects):
 
 
 
-"""def total_test_takers(year):
+def total_test_takers(year):
     with open('school_scores.json') as school_scores:
         testers_total = json.load(school_scores)
         total = 0
         for d in testers_total:
-            if d['Year'] == year:
-                total += d['Total']['Test-Takers']
-   return total """
+            if str(d['Year']) == str(year):
+                total += d['Total']['Test-takers']
+    return total
 
 
 

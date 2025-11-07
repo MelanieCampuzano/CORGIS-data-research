@@ -54,11 +54,46 @@ def render_fact2():
 
 @app.route('/yearData3')
 def render_fact3():
-    #
-    #
-    #
-    return render_template('page3.html')
+    with open('school_scores.json') as school_scores:
+        data = json.load(school_scores)
+        math = {}
+        count = 0
+        for d in data:
+            count += 1
+            for income in d["Family Income"]:
+                if income in math:
+                    math[income] += d["Family Income"][income]["Math"]
+                else:
+                    math[income] = d["Family Income"][income]["Math"]
+        for level in math:
+            math[level]/=count
+    DataPoints1 = []
+    for level in math:
+        DataPoints1.append({
+        "y": math[level], "label": level
+        })
+    print(DataPoints1)
+    with open('school_scores.json') as school_scores:
+        data = json.load(school_scores)
+        verbal = {}
+        count = 0
+        for d in data:
+            count += 1
+            for income in d["Family Income"]:
+                if income in verbal:
+                    verbal[income] += d["Family Income"][income]["Verbal"]
+                else:
+                    verbal[income] = d["Family Income"][income]["Verbal"]
+        for level in verbal:
+            verbal[level]/=count
+    DataPoints2 = []
+    for level in verbal:
+        DataPoints2.append({
+        "y": verbal[level], "label": level
+        })
+    print(DataPoints2)
     
+    return render_template('page3.html', data1 = Markup(DataPoints1), data2 = Markup(DataPoints2))
 
 
 

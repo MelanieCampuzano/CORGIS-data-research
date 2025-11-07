@@ -286,4 +286,4 @@ def avg_by_income_level(Income_level, section):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
